@@ -1,4 +1,7 @@
 var postcss = require('postcss');
+var isSpecSymbol = function(symbol) {
+    return '()[].^$|?+\\'.indexOf(symbol) !== -1;
+};
 
 var definition = function (variables, node) {
     var name = node.prop.slice(1);
@@ -26,7 +29,8 @@ var variable = function (variables, node, str, name, opts) {
 };
 
 var simpleSyntax = function (variables, node, str, opts) {
-    var re = new RegExp('(^|[^\\w])\\' + opts.prefix + '([\\w\\d-_]+)', 'g');
+    var prefix  = isSpecSymbol(opts.prefix) ? '\\' + opts.prefix : opts.prefix,
+        re      = new RegExp('(^|[^\\w])' + prefix + '([\\w\\d-_]+)', 'g');
 
     return str.replace(re, function (_, before, name) {
         return before + variable(variables, node, opts.prefix + name, name, opts);
@@ -34,8 +38,10 @@ var simpleSyntax = function (variables, node, str, opts) {
 };
 
 var inStringSyntax = function (variables, node, str, opts) {
-    var re = new RegExp('\\' + opts.prefix + '\\(\\s*([\\w\\d-_]+)\\s*\\)', 'g');
+    var prefix  = isSpecSymbol(opts.prefix) ? '\\' + opts.prefix : opts.prefix,
+        re      = new RegExp(prefix + '\\(\\s*([\\w\\d-_]+)\\s*\\)', 'g');
 
+    //console.log('inStringSyntax', re);
     return str.replace(re, function (all, name) {
         return variable(variables, node, all, name, opts);
     });
@@ -59,7 +65,7 @@ var atruleParams = function (variables, node, opts) {
     node.params = bothSyntaxes(variables, node, node.params, opts);
 };
 
-module.exports = postcss.plugin('postcss-simple-vars', function (opts) {
+module.exports = postcss.plugin('postcss-vars', function (opts) {
     if ( typeof opts === 'undefined' ) opts = { };
 
     if(!opts.prefix) {
@@ -75,9 +81,14 @@ module.exports = postcss.plugin('postcss-simple-vars', function (opts) {
         }
 
         css.eachInside(function (node) {
+            if(node.type === 'atrule' && ['charset', 'font-face', 'import', 'media', 'page'].indexOf(node.name) === -1) {
+                node.type = 'decl';
+                node.value = node.params;
+                node.prop = opts.prefix + node.name.substring(0, node.name.length - 1);
+            }
 
-            if ( node.type === 'decl' ) {
-                if ( node.value.toString().indexOf(opts.prefix) !== -1 ) {
+            if(node.type === 'decl') {
+                if (node.value.toString().indexOf(opts.prefix) !== -1 ) {
                     declValue(variables, node, opts);
                 }
                 if ( node.prop[0] === opts.prefix ) {
