@@ -4,7 +4,7 @@
      title="Philosopher’s stone, logo of PostCSS"
      src="http://postcss.github.io/postcss/logo.svg">
 
-[PostCSS] plugin for Sass-like variables.
+[PostCSS] plugin for (sass|less|scss|stylus|more)-like variables.
 
 You can use variables inside values, selectors and at-rule’s parameters.
 
@@ -69,6 +69,9 @@ Call plugin function to set options:
 .pipe(postcss([ require('postcss-simple-vars')({ silent: true }) ]))
 ```
 
+### `prefix`
+
+Default is `$`.
 ### `variables`
 
 Set default variables. It is useful to store colors or other constants

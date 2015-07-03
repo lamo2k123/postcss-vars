@@ -1,13 +1,23 @@
 {
-    "name": "postcss-simple-vars",
-    "version": "0.3.0",
-    "description": "PostCSS plugin for Sass-like variables",
-    "keywords": ["postcss", "css", "postcss-plugin", "sass", "variables", "vars"],
-    "author": "Andrey Sitnik <andrey@sitnik.ru>",
+    "name": "postcss-vars",
+    "version": "1.0.0",
+    "description": "PostCSS plugin for (sass|less|scss|stylus|more)-like variables",
+    "keywords": [
+        "postcss",
+        "postcss-plugin",
+        "css",
+        "sass",
+        "less",
+        "scss",
+        "stylus",
+        "variables",
+        "vars"
+    ],
+    "author": "Aleksey Novikov <lamo2k123@gmail.com>",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url":  "https://github.com/postcss/postcss-simple-vars.git"
+        "url":  "https://github.com/lamo2k123/postcss-vars.git"
     },
     "dependencies": {
         "postcss": "^4.1.9"

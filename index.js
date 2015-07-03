@@ -21,18 +21,22 @@ var variable = function (variables, node, str, name, opts) {
         return str;
 
     } else {
-        throw node.error('Undefined variable $' + name);
+        throw node.error('Undefined variable ' + opts.prefix + name);
     }
 };
 
 var simpleSyntax = function (variables, node, str, opts) {
-    return str.replace(/(^|[^\w])\$([\w\d-_]+)/g, function (_, before, name) {
-        return before + variable(variables, node, '$' + name, name, opts);
+    var re = new RegExp('(^|[^\\w])\\' + opts.prefix + '([\\w\\d-_]+)', 'g');
+
+    return str.replace(re, function (_, before, name) {
+        return before + variable(variables, node, opts.prefix + name, name, opts);
     });
 };
 
 var inStringSyntax = function (variables, node, str, opts) {
-    return str.replace(/\$\(\s*([\w\d-_]+)\s*\)/g, function (all, name) {
+    var re = new RegExp('\\' + opts.prefix + '\\(\\s*([\\w\\d-_]+)\\s*\\)', 'g');
+
+    return str.replace(re, function (all, name) {
         return variable(variables, node, all, name, opts);
     });
 };
@@ -58,6 +62,10 @@ var atruleParams = function (variables, node, opts) {
 module.exports = postcss.plugin('postcss-simple-vars', function (opts) {
     if ( typeof opts === 'undefined' ) opts = { };
 
+    if(!opts.prefix) {
+        opts.prefix = '$';
+    }
+
     return function (css) {
         var variables = { };
         if ( typeof opts.variables === 'function' ) {
@@ -69,20 +77,20 @@ module.exports = postcss.plugin('postcss-simple-vars', function (opts) {
         css.eachInside(function (node) {
 
             if ( node.type === 'decl' ) {
-                if ( node.value.toString().indexOf('$') !== -1 ) {
+                if ( node.value.toString().indexOf(opts.prefix) !== -1 ) {
                     declValue(variables, node, opts);
                 }
-                if ( node.prop[0] === '$' ) {
+                if ( node.prop[0] === opts.prefix ) {
                     if ( !opts.only ) definition(variables, node);
                 }
 
             } else if ( node.type === 'rule' ) {
-                if ( node.selector.indexOf('$') !== -1 ) {
+                if ( node.selector.indexOf(opts.prefix) !== -1 ) {
                     ruleSelector(variables, node, opts);
                 }
 
             } else if ( node.type === 'atrule' ) {
-                if ( node.params && node.params.indexOf('$') !== -1 ) {
+                if ( node.params && node.params.indexOf(opts.prefix) !== -1 ) {
                     atruleParams(variables, node, opts);
                 }
             }
