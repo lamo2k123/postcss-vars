@@ -1,10 +1,10 @@
-# PostCSS Simple Variables [![Build Status][ci-img]][ci]
+# PostCSS LESS Variables [![Build Status][ci-img]][ci]
 
 <img align="right" width="95" height="95"
      title="Philosopher’s stone, logo of PostCSS"
      src="http://postcss.github.io/postcss/logo.svg">
 
-[PostCSS] plugin for (sass|less|scss|stylus|more)-like variables.
+[PostCSS] plugin for less-like variables.
 
 You can use variables inside values, selectors and at-rule’s parameters.
 
@@ -56,7 +56,7 @@ $(prefix)_button { }
 ## Usage
 
 ```js
-postcss([ require('postcss-simple-vars') ])
+postcss([ require('postcss-less-vars') ])
 ```
 
 See [PostCSS] docs for examples for your environment.
@@ -66,7 +66,7 @@ See [PostCSS] docs for examples for your environment.
 Call plugin function to set options:
 
 ```js
-.pipe(postcss([ require('postcss-simple-vars')({ silent: true }) ]))
+.pipe(postcss([ require('postcss-less-vars')({ silent: true }) ]))
 ```
 
 ### `prefix`
@@ -87,7 +87,7 @@ module.exports = {
 // gulpfile.js
 
 var colors = require('./config/colors');
-var vars   = require('postcss-simple-vars')
+var vars   = require('postcss-less-vars')
 
 gulp.task('css', function () {
      return gulp.src('./src/*.css')

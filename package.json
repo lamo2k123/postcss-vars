@@ -1,15 +1,12 @@
 {
-    "name": "postcss-vars",
+    "name": "postcss-less-vars",
     "version": "1.0.0",
-    "description": "PostCSS plugin for (sass|less|scss|stylus|more)-like variables",
+    "description": "PostCSS plugin for less-like variables",
     "keywords": [
         "postcss",
         "postcss-plugin",
         "css",
-        "sass",
         "less",
-        "scss",
-        "stylus",
         "variables",
         "vars"
     ],
@@ -17,7 +14,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url":  "https://github.com/lamo2k123/postcss-vars.git"
+        "url":  "https://github.com/lamo2k123/postcss-less-vars.git"
     },
     "dependencies": {
         "postcss": "^4.1.9"
