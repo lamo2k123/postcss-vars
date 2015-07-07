@@ -9,15 +9,15 @@
 You can use variables inside values, selectors and at-rule’s parameters.
 
 ```css
-$blue: #056ef0;
-$column: 200px;
+@blue: #056ef0;
+@column: 200px;
 
 .menu {
-    width: calc(4 * $column);
+    width: calc(4 * @column);
 }
 .menu_link {
-    background: $blue;
-    width: $column;
+    background: @blue;
+    width: @column;
 }
 ```
 
@@ -39,18 +39,16 @@ Also you should look at [postcss-map] for big complicated configs.
 [postcss-custom-properties]: https://github.com/postcss/postcss-custom-properties
 [postcss-map]:               https://github.com/pascalduez/postcss-map
 [PostCSS]:                   https://github.com/postcss/postcss
-[ci-img]:                    https://travis-ci.org/postcss/postcss-simple-vars.svg
-[ci]:                        https://travis-ci.org/postcss/postcss-simple-vars
 
 ## Interpolation
 
 There is special syntax if you want to use variable inside CSS words:
 
 ```css
-$prefix: my-company-widget
+@prefix: my-company-widget
 
-$prefix { }
-$(prefix)_button { }
+@prefix { }
+@{prefix}_button { }
 ```
 
 ## Usage
@@ -69,9 +67,6 @@ Call plugin function to set options:
 .pipe(postcss([ require('postcss-less-vars')({ silent: true }) ]))
 ```
 
-### `prefix`
-
-Default is `$`.
 ### `variables`
 
 Set default variables. It is useful to store colors or other constants
