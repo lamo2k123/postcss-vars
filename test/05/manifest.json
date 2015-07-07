@@ -1,0 +1,8 @@
+{
+    "name": "05. works with false value",
+    "options": {
+        "variables" : {
+            "zero" : 0
+        }
+    }
+}

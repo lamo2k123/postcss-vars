@@ -1,0 +1,8 @@
+{
+    "name": "07. Does not remove first symbol",
+    "options": {
+        "variables" : {
+            "a" : 1
+        }
+    }
+}

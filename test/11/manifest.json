@@ -1,8 +1,4 @@
 {
-    "name": "11. replaces multiple variables",
-    "options": {
-        "variables" : {
-            "a" : 1
-        }
-    }
+    "name": "11. CSS @media",
+    "options": {}
 }

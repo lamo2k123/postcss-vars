@@ -64,7 +64,13 @@ See [PostCSS] docs for examples for your environment.
 Call plugin function to set options:
 
 ```js
-.pipe(postcss([ require('postcss-less-vars')({ silent: true }) ]))
+.pipe(postcss([require('postcss-less-vars')({
+    variables: {
+        color : #fff,
+        height: 40rem
+    }
+})]))
+}
 ```
 
 ### `variables`
@@ -103,10 +109,6 @@ postcss([
     })
 ]
 ```
-
-### `silent`
-
-Left unknown variables in CSS and do not throw a error. Default is `false`.
 
 ### `only`
 

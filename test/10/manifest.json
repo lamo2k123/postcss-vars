@@ -1,8 +1,4 @@
 {
-    "name": "10. allows to use in negative numbers",
-    "options": {
-        "variables" : {
-            "a" : 1
-        }
-    }
+    "name": "10. CSS @import",
+    "options": {}
 }

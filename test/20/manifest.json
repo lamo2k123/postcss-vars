@@ -1,0 +1,8 @@
+{
+    "name": "20. replaces multiple variables",
+    "options": {
+        "variables" : {
+            "a" : 1
+        }
+    }
+}

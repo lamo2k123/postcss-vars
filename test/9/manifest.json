@@ -1,8 +1,0 @@
-{
-    "name": "9. does not remove first symbol",
-    "options": {
-        "variables" : {
-            "a" : 1
-        }
-    }
-}

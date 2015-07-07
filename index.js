@@ -4,73 +4,94 @@ var Vars = function(options) {
     if(!(this instanceof Vars)) {
         return new Vars(options);
     }
+
     this.options = options || {};
-    this.vars = this.options.only || this.options.variables || {};
-    //console.log(options, this.vars);
-    return this.initializer.bind(this);
+    this.vars = {};
+
+    return this
+        .inputVars()
+        .initializer.bind(this);
 };
 
 Vars.prototype.initializer = function(css, result) {
-    css.eachInside(this._garbageVars.bind(this, css));
-
-/*    for(var key in this.vars) {
-        if(this.vars.hasOwnProperty(key)) {
-            var re = new RegExp('\\B@{?' + key + '}?|@{' + key + '}', 'g');
-            css.replaceValues(re, function(string) {
-                return this.vars[key];
-            }.bind(this));
-        }
-    }*/
+    css.eachInside(this._garbageVars.bind(this));
 };
 
-Vars.prototype._garbageVars = function(css, node) {
-    var store = null;
+Vars.prototype.inputVars = function() {
+    var vars = this.options.only || this.options.variables || {};
+
+    Object.keys(vars).forEach(function(key) {
+        this.set(key, vars[key]);
+    }.bind(this));
+
+    return this;
+};
+
+Vars.prototype._garbageVars = function(node) {
 
     switch(node.type) {
         case 'atrule':
-            store = 'params';
+            this.replace(node, 'params');
+
+            if(!this.options.only) {
+                if(/\S+:/g.test(node.name)) {
+                    node.name = node.name.slice(0, node.name.length - 1);
+
+                    this
+                        .set(node.name, node.params)
+                        .remove(node);
+                }
+            }
+
             break;
+
         case 'decl':
-            store = 'value';
+            this.replace(node, 'value');
+
             break;
     }
 
-    if(store) {
-        var re      = new RegExp('\\B@{?\\S+}?|@{\\S+}', 'g'),
-            vars    = node[store].match(re);
+};
 
-        if(vars && vars.length) {
-            for(var i in vars) {
-                if(vars.hasOwnProperty(i)) {
-                    var key = vars[i].substring(1);
+Vars.prototype.get = function(name) {
+    return typeof this.vars[name] !== 'undefined' ? this.vars[name] : name;
+};
 
-                    if(typeof this.vars[key] !== 'undefined') {
-                        node[store] = node[store].replace(vars[i], this.vars[key]);
-                    }
+Vars.prototype.set = function(name, value) {
+    if(typeof name === 'string') {
+        this.vars['@{' + name + '}'] = this.vars['@' + name] = this.vars[name] = value;
+    }
+
+    return this;
+};
+
+Vars.prototype.replace = function(node, key) {
+    if(node && typeof key === 'string') {
+        var value= node[key],
+            vars = value.match(/(@{?[a-z0-9-_.]+}?)/g);
+
+        for(var i in vars) {
+            if(vars.hasOwnProperty(i)) {
+                node[key] = node[key].replace(vars[i], this.get(vars[i]));
+
+                if(/@(?:@)/g.test(value)) {
+                    node[key] = node[key].replace(/\B(?=@)?["']|["']\B/g, '');
+                }
+
+                if(!this.options.only) {
+                    this.replace(node, key);
                 }
             }
         }
     }
 
-    if(node.type === 'atrule' && /\S+:/g.test(node.name) && node.params) {
-        if(!this.options.only) {
-            this.set(node.name, node.params);
-
-            node.parent.remove(node);
-        }
-
-    } else if(node.type === 'decl') {
-
-    }
-
+    return this;
 };
 
-Vars.prototype.set = function(key, value) {
-    if(typeof key === 'string' && typeof value === 'string') {
-        key = key.slice(0, key.length - 1);
+Vars.prototype.remove = function(node) {
+    node && node.parent && node.parent.remove(node);
 
-        this.vars[key] = value;
-    }
+    return this;
 };
 
 module.exports = postcss.plugin('postcss-less-vars', Vars);

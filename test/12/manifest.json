@@ -1,8 +1,4 @@
 {
-    "name": "12. gets variables from options",
-    "options": {
-        "variables" : {
-            "one" : 1
-        }
-    }
+    "name": "12. CSS @page",
+    "options": {}
 }
