@@ -1,4 +1,4 @@
-# PostCSS LESS Variables [![Build Status][ci-img]][ci]
+# PostCSS LESS Variables [![Build Status]
 
 <img align="right" width="95" height="95"
      title="Philosopher’s stone, logo of PostCSS"
