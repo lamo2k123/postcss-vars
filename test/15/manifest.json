@@ -1,0 +1,8 @@
+{
+    "name": "15. cans get variables only from option",
+    "options": {
+        "only" : {
+            "one" : 1
+        }
+    }
+}

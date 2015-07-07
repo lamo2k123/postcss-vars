@@ -1,32 +1,32 @@
 {
-    "name": "postcss-less-vars",
-    "version": "1.0.0",
-    "description": "PostCSS plugin for less-like variables",
-    "keywords": [
-        "postcss",
-        "postcss-plugin",
-        "css",
-        "less",
-        "variables",
-        "vars"
-    ],
-    "author": "Aleksey Novikov <lamo2k123@gmail.com>",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url":  "https://github.com/lamo2k123/postcss-less-vars.git"
-    },
-    "dependencies": {
-        "postcss": "^4.1.9"
-    },
-    "devDependencies": {
-        "gulp-eslint": "0.11.1",
-        "gulp-mocha":  "2.0.1",
-        "mocha":       "2.2.4",
-        "chai":        "2.3.0",
-        "gulp":        "3.8.11"
-    },
-    "scripts": {
-        "test": "gulp"
-    }
+  "name": "postcss-less-vars",
+  "version": "1.0.0",
+  "description": "PostCSS plugin for less-like variables",
+  "keywords": [
+    "postcss",
+    "postcss-plugin",
+    "css",
+    "less",
+    "variables",
+    "vars"
+  ],
+  "author": "Aleksey Novikov <lamo2k123@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lamo2k123/postcss-less-vars.git"
+  },
+  "dependencies": {
+    "postcss": "^4.1.9"
+  },
+  "devDependencies": {
+    "gulp-eslint": "0.11.1",
+    "gulp-mocha": "2.0.1",
+    "mocha": "2.2.4",
+    "chai": "2.3.0",
+    "gulp": "3.8.11"
+  },
+  "scripts": {
+    "test": "gulp"
+  }
 }
