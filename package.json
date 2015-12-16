@@ -19,7 +19,7 @@
         "url": "https://github.com/lamo2k123/postcss-less-vars.git"
     },
     "dependencies": {
-        "postcss": "5.0.9"
+        "postcss": "^5.0.13"
     },
     "devDependencies": {
         "gulp-mocha": "2.0.1",
