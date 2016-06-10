@@ -1,6 +1,6 @@
 {
     "name": "postcss-less-vars",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "PostCSS plugin for less-like variables",
     "keywords": [
         "postcss",
@@ -19,15 +19,13 @@
         "url": "https://github.com/lamo2k123/postcss-less-vars.git"
     },
     "dependencies": {
-        "postcss": "^5.0.13"
+        "postcss": "5.*"
     },
     "devDependencies": {
-        "gulp-mocha": "2.0.1",
-        "mocha": "2.2.4",
-        "chai": "2.3.0",
-        "gulp": "3.8.11"
+        "mocha": "2.5.3",
+        "chai": "3.5.0"
     },
     "scripts": {
-        "test": "gulp"
+        "test": "mocha ./test.js"
     }
 }

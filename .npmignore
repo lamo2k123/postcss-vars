@@ -2,4 +2,5 @@
 node_modules/
 test/
 test.js
-gulpfile.js
+*.log
+.travis.yml
