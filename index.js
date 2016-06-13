@@ -1,20 +1,8 @@
 var postcss = require('postcss');
 
 var Vars = function(options) {
-    if(!(this instanceof Vars)) {
-        return new Vars(options);
-    }
-
     this.options = options || {};
     this.vars = {};
-
-    return this
-        .inputVars()
-        .initializer.bind(this);
-};
-
-Vars.prototype.initializer = function(css, result) {
-    css.walk(this.garbageVars.bind(this));
 };
 
 Vars.prototype.inputVars = function() {
@@ -23,11 +11,13 @@ Vars.prototype.inputVars = function() {
     Object.keys(vars).forEach(function(key) {
         this.set(key, vars[key]);
     }, this);
-
-    return this;
 };
 
-Vars.prototype.garbageVars = function(node) {
+Vars.prototype.process = function(css) {
+    css.walk(this.grabVars.bind(this));
+};
+
+Vars.prototype.grabVars = function(node) {
 
     switch(node.type) {
         case 'atrule':
@@ -35,11 +25,9 @@ Vars.prototype.garbageVars = function(node) {
 
             if(!this.options.only) {
                 if(/\S+:/g.test(node.name)) {
+                    node.remove();
                     node.name = node.name.slice(0, -1);
-
-                    this
-                        .set(node.name, node.params)
-                        .remove(node);
+                    this.set(node.name, node.params);
                 }
             }
 
@@ -61,13 +49,11 @@ Vars.prototype.set = function(name, value) {
     if(typeof name === 'string') {
         this.vars['@{' + name + '}'] = this.vars['@' + name] = this.vars[name] = value;
     }
-
-    return this;
 };
 
 Vars.prototype.replace = function(node, key) {
     if(node && typeof key === 'string') {
-        var value= node[key],
+        var value = node[key],
             vars = value.match(/(@{?[a-z0-9-_.]+}?)/g);
 
         if(vars) {
@@ -84,14 +70,12 @@ Vars.prototype.replace = function(node, key) {
             }, this);
         }
     }
-
-    return this;
 };
 
-Vars.prototype.remove = function(node) {
-    node && node.parent && node.parent.removeChild(node);
-
-    return this;
-};
-
-module.exports = postcss.plugin('postcss-less-vars', Vars);
+module.exports = postcss.plugin('postcss-less-vars', function (options) {
+    var vars = new Vars(options);
+    vars.inputVars();
+    return function (css) {
+        vars.process(css);
+    };
+});
