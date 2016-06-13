@@ -14,7 +14,7 @@ var Vars = function(options) {
 };
 
 Vars.prototype.initializer = function(css, result) {
-    css.eachInside(this._garbageVars.bind(this));
+    css.walk(this.garbageVars.bind(this));
 };
 
 Vars.prototype.inputVars = function() {
@@ -22,12 +22,12 @@ Vars.prototype.inputVars = function() {
 
     Object.keys(vars).forEach(function(key) {
         this.set(key, vars[key]);
-    }.bind(this));
+    }, this);
 
     return this;
 };
 
-Vars.prototype._garbageVars = function(node) {
+Vars.prototype.garbageVars = function(node) {
 
     switch(node.type) {
         case 'atrule':
@@ -35,7 +35,7 @@ Vars.prototype._garbageVars = function(node) {
 
             if(!this.options.only) {
                 if(/\S+:/g.test(node.name)) {
-                    node.name = node.name.slice(0, node.name.length - 1);
+                    node.name = node.name.slice(0, -1);
 
                     this
                         .set(node.name, node.params)
@@ -70,9 +70,9 @@ Vars.prototype.replace = function(node, key) {
         var value= node[key],
             vars = value.match(/(@{?[a-z0-9-_.]+}?)/g);
 
-        for(var i in vars) {
-            if(vars.hasOwnProperty(i)) {
-                node[key] = node[key].replace(vars[i], this.get(vars[i]));
+        if(vars) {
+            vars.forEach(function(item) {
+                node[key] = node[key].replace(item, this.get(item));
 
                 if(/@(?:@)/g.test(value)) {
                     node[key] = node[key].replace(/\B(?=@)?["']|["']\B/g, '');
@@ -81,7 +81,7 @@ Vars.prototype.replace = function(node, key) {
                 if(!this.options.only) {
                     this.replace(node, key);
                 }
-            }
+            }, this);
         }
     }
 
@@ -89,7 +89,7 @@ Vars.prototype.replace = function(node, key) {
 };
 
 Vars.prototype.remove = function(node) {
-    node && node.parent && node.parent.remove(node);
+    node && node.parent && node.parent.removeChild(node);
 
     return this;
 };
