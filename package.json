@@ -1,6 +1,6 @@
 {
     "name": "postcss-less-vars",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "PostCSS plugin for less-like variables",
     "keywords": [
         "postcss",
