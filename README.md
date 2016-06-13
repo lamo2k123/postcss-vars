@@ -1,4 +1,4 @@
-# PostCSS LESS Variables
+# PostCSS LESS Variables [![Build Status][travis-img]][travis]
 
 <img align="right" width="95" height="95"
      title="Philosopher’s stone, logo of PostCSS"
@@ -39,6 +39,8 @@ Also you should look at [postcss-map] for big complicated configs.
 [postcss-custom-properties]: https://github.com/postcss/postcss-custom-properties
 [postcss-map]:               https://github.com/pascalduez/postcss-map
 [PostCSS]:                   https://github.com/postcss/postcss
+[travis]:                    https://travis-ci.org/lamo2k123/postcss-less-vars
+[travis-img]:                https://travis-ci.org/lamo2k123/postcss-less-vars.svg
 
 ## Interpolation
 
@@ -64,13 +66,14 @@ See [PostCSS] docs for examples for your environment.
 Call plugin function to set options:
 
 ```js
-.pipe(postcss([require('postcss-less-vars')({
-    variables: {
-        color : #fff,
-        height: 40rem
-    }
-})]))
-}
+postcss([
+    require('postcss-less-vars')({
+        variables: {
+            color: '#fff',
+            height: '40rem'
+        }
+    })
+])
 ```
 
 ### `variables`
@@ -92,7 +95,11 @@ var vars   = require('postcss-less-vars')
 
 gulp.task('css', function () {
      return gulp.src('./src/*.css')
-        .pipe(postcss([ vars({ variables: colors }) ]))
+        .pipe(postcss([
+            vars({
+                variables: colors
+            })
+        ]))
         .pipe(gulp.dest('./dest'));
 });
 ```
