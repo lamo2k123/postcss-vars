@@ -54,7 +54,7 @@ Vars.prototype.set = function(name, value) {
 Vars.prototype.replace = function(node, key) {
     if(node && typeof key === 'string') {
         var value = node[key],
-            vars = value.match(/(@{?[a-z0-9-_.]+}?)/g);
+            vars = value.match(/(@{?[a-zA-Z0-9-_.]+}?)/g);
 
         if(vars) {
             vars.forEach(function(item) {
