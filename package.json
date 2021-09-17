@@ -19,7 +19,7 @@
         "url": "https://github.com/lamo2k123/postcss-less-vars.git"
     },
     "dependencies": {
-        "postcss": "5.*"
+        "postcss": "8.0.0"
     },
     "devDependencies": {
         "mocha": "2.5.3",
